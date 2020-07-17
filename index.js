@@ -9,7 +9,7 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({
     extended: true
 })); 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
 
 app.post("/login", (req, res) => {
     console.log(req.body);
@@ -60,7 +60,7 @@ app.post("/copy", (req, res) => {
             formData[val.name] = val.value;
         });
 
-        //await nextapp.sendForm('https://nextapp.cz/listing/add', formData);
+        await nextapp.sendForm('https://nextapp.cz/listing/add', formData);
         res.send('Successfully copied')
     })
     .catch((err) => {
