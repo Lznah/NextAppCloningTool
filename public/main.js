@@ -1,4 +1,7 @@
 var spinner = $("#spinner");
+var success = $("#success");
+var badPassword = $("#badPassword");
+var error = $("#error");
 
 var username, password;
 $('#form').submit(function(event) {
@@ -6,6 +9,7 @@ $('#form').submit(function(event) {
     username = $("#inputUsername").val();
     password = $("#inputPassword").val();
     spinner.show();
+    badPassword.hide();
     $.ajax({
         'method': 'post',
         'url': '/login',
@@ -14,9 +18,8 @@ $('#form').submit(function(event) {
             if(message == 'Logged in') {
                 $('#form').hide();
                 $('#form-copy').show();
-                console.log('hidden')
             } else {
-                alert("Špatné heslo")
+                badPassword.show();
             }
             spinner.hide();
         }
@@ -27,18 +30,18 @@ $("#form-copy").submit(function(event) {
     event.preventDefault();
     var id = $('#inputId').val();
     spinner.show();
+    success.hide();
+    error.hide();
     $.ajax({
         'method': 'post',
         'url': '/copy',
         'data': 'username='+username+'&password='+password+'&id='+id,
         'success' : function(message) {
-            console.log(message)
-            if(message != 'Logged in') {
+            if(message == 'Successfully copied') {
                 $('#inputId').val("");
-                alert("Zakázka byla zkopírována");
-                console.log('hidden')
+                success.show();
             } else {
-                alert("Vyskytla se chyba při kopírování.");
+                error.show();
             }
             spinner.hide();
         }
